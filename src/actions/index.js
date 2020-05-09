@@ -7,6 +7,7 @@ const API_KEY = '?key=Hershel_wathore';
 export const ActionTypes = {
   FETCH_POSTS: 'FETCH_POSTS',
   FETCH_POST: 'FETCH_POST',
+  FILTER_POSTS: 'FILTER_POSTS',
 };
 
 
@@ -59,5 +60,12 @@ export function createPost(post, history) {
     }).catch((error) => {
       console.log(error);
     });
+  };
+}
+
+export function filterPosts(tag) {
+  return {
+    type: ActionTypes.FILTER_POSTS,
+    payload: tag,
   };
 }

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import marked from 'marked';
 import { withRouter, Link } from 'react-router-dom';
-import { fetchPosts, fetchPost } from '../actions';
+import { fetchPosts, fetchPost, filterPosts } from '../actions';
 
 
 class Posts extends Component {
@@ -18,24 +18,36 @@ class Posts extends Component {
     this.props.fetchPosts();
   }
 
+  toggleFilter = (event) => {
+    this.props.filterPosts(event.currentTarget.value);
+  }
+
+  displayPost = (post) => {
+    let tags;
+    if (post.tags) {
+      tags = post.tags.split(' ').map((tag) => <Button onClick={this.toggleFilter} variant="contained" value={tag}>{tag}</Button>);
+    } else {
+      tags = [];
+    }
+    return (
+      <div className="postgen">
+        <Link to={`/posts/${post.id}`} className="linkpost" key={post.id}>
+          <div className="display-image" dangerouslySetInnerHTML={{ __html: marked(`![](${post.coverUrl})` || '') }} />
+          <h3 className="title">{post.title}</h3>
+        </Link>
+        {tags}
+      </div>
+    );
+  }
+
+
   renderPosts() {
     return this.props.posts.map((post) => {
-      let tags;
-      if (post.tags) {
-        tags = post.tags.split(' ').map((tag) => <Button variant="contained">{tag}</Button>);
-      } else {
-        tags = [];
-      }
-      return (
-        <div className="postgen">
-          <Link to={`/posts/${post.id}`} className="linkpost" key={post.id}>
-            <div className="display-image" dangerouslySetInnerHTML={{ __html: marked(`![](${post.coverUrl})` || '') }} />
-            <h3 className="title">{post.title}</h3>
-          </Link>
-          {tags}
-        </div>
-
-      );
+      if (this.props.filter === '') {
+        return this.displayPost(post);
+      } else if (post.tags.toLowerCase().includes(this.props.filter.toLowerCase())) {
+        return this.displayPost(post);
+      } else return null;
     });
   }
 
@@ -44,8 +56,10 @@ class Posts extends Component {
       return (<div />);
     } else {
       return (
-        <div className="displayposts">
-          {this.renderPosts()}
+        <div>
+          <div className="displayposts">
+            {this.renderPosts()}
+          </div>
         </div>
       );
     }
@@ -54,6 +68,7 @@ class Posts extends Component {
 
 const mapStateToProps = (reduxState) => ({
   posts: reduxState.posts.all,
+  filter: reduxState.posts.filter,
 });
 
-export default withRouter(connect(mapStateToProps, { fetchPosts, fetchPost })(Posts));
+export default withRouter(connect(mapStateToProps, { fetchPosts, fetchPost, filterPosts })(Posts));

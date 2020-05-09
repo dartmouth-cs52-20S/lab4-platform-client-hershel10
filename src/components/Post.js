@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import marked from 'marked';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router-dom';
-import { deletePost, updatePost, fetchPost } from '../actions';
+// eslint-disable-next-line object-curly-newline
+import { deletePost, updatePost, fetchPost, filterPosts } from '../actions';
 
 
 class Post extends Component {
@@ -33,6 +34,11 @@ class Post extends Component {
 
   delete = () => {
     this.props.deletePost(this.props.match.params.id, this.props.history);
+  }
+
+  handleFilter = (event) => {
+    this.props.filterPosts(event.currentTarget.value);
+    this.props.history.push('/');
   }
 
   onHandleChange = (event) => {
@@ -68,7 +74,7 @@ class Post extends Component {
   renderPost = () => {
     let tags;
     if (this.props.post.tags) {
-      tags = this.props.post.tags.split(' ').map((tag) => <Button variant="contained">{tag}</Button>);
+      tags = this.props.post.tags.split(' ').map((tag) => <Button onClick={this.handleFilter} variant="contained" value={tag}>{tag}</Button>);
     } else {
       tags = [];
     }
@@ -117,4 +123,5 @@ const mapStateToProps = (reduxState) => ({
   post: reduxState.posts.current,
 });
 
-export default withRouter(connect(mapStateToProps, { fetchPost, deletePost, updatePost })(Post));
+// eslint-disable-next-line object-curly-newline
+export default withRouter(connect(mapStateToProps, { fetchPost, deletePost, updatePost, filterPosts })(Post));

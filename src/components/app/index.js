@@ -1,47 +1,13 @@
 import React from 'react';
 import {
-  BrowserRouter as Router, Switch, Route, NavLink,
+  BrowserRouter as Router, Switch, Route,
 } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import HomeIcon from '@material-ui/icons/Home';
-import AddIcon from '@material-ui/icons/Add';
 import Particles from 'react-particles-js';
+import Nav from './Nav';
 import NewPost from '../NewPost';
 import Post from '../Post';
 import Posts from '../Posts';
 
-
-const Nav = (props) => {
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      flexGrow: 1,
-    },
-  }));
-  const classes = useStyles();
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="secondary" aria-label="menu">
-            <NavLink to="/" exact><HomeIcon fontSize="large" /></NavLink>
-          </IconButton>
-          <IconButton edge="start" className={classes.menuButton} fontSize="large" color="inherit" aria-label="menu">
-            <NavLink to="/posts/new"><AddIcon /></NavLink>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
-};
 
 const FallBack = (props) => {
   return <div>URL Not Found</div>;
@@ -57,7 +23,7 @@ const App = (props) => {
           params={{
             particles: {
               number: {
-                value: 75,
+                value: 100,
                 density: {
                   enable: true,
                   value_area: 1000,
