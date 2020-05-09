@@ -35,7 +35,9 @@ class Posts extends Component {
           <div className="display-image" dangerouslySetInnerHTML={{ __html: marked(`![](${post.coverUrl})` || '') }} />
           <h3 className="title">{post.title}</h3>
         </Link>
-        {tags}
+        <div className="post-tags">
+          {tags}
+        </div>
       </div>
     );
   }

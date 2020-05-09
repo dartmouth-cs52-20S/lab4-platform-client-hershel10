@@ -72,6 +72,10 @@ class Nav extends React.Component {
     };
   }
 
+  onHome = () => {
+    this.props.filterPosts('');
+  }
+
   handlefilter = (event) => {
     this.props.filterPosts(event.target.value);
   }
@@ -83,7 +87,7 @@ class Nav extends React.Component {
         <AppBar position="static">
           <Toolbar>
             <IconButton edge="start" className={classes.menuButton} color="secondary" aria-label="menu">
-              <NavLink to="/" exact><HomeIcon fontSize="large" /></NavLink>
+              <NavLink to="/" exact><HomeIcon onClick={this.onHome} fontSize="large" /></NavLink>
             </IconButton>
             <IconButton edge="start" className={classes.menuButton} fontSize="large" color="primary" aria-label="menu">
               <NavLink to="/posts/new"><AddIcon fontSize="large" /></NavLink>

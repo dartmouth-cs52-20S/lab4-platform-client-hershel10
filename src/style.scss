@@ -38,15 +38,21 @@ body {
     filter: brightness(100%);
    }
    .postgen {
+     width: 250px;
     margin: 20px 20px 20px 20px;
+    .post-tags{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
     filter: brightness(90%);
      background-color: whitesmoke;
      p {
       margin-top: 0px ;
      }
      img {
-       margin-top: 0px ;
        width: 250px;
+       margin-top: 0px ;
      }
      .title {
       font-size: xx-large;
