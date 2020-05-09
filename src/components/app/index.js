@@ -2,34 +2,45 @@ import React from 'react';
 import {
   BrowserRouter as Router, Switch, Route, NavLink,
 } from 'react-router-dom';
-import Counter from '../counter';
-import Controls from '../controls';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import HomeIcon from '@material-ui/icons/Home';
+import AddIcon from '@material-ui/icons/Add';
+import Particles from 'react-particles-js';
+import NewPost from '../NewPost';
+import Post from '../Post';
+import Posts from '../Posts';
 
-const About = (props) => {
-  return <div> All there is to know about me </div>;
-};
-
-const Welcome = (props) => {
-  return <div>Welcome</div>;
-};
 
 const Nav = (props) => {
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+    },
+  }));
+  const classes = useStyles();
   return (
-    <nav>
-      <ul>
-        <Counter />
-        <Controls />
-        <li><NavLink to="/" exact>Home</NavLink></li>
-        <li><NavLink to="/about">About</NavLink></li>
-        <li><NavLink to="/test/id1">test id1</NavLink></li>
-        <li><NavLink to="/test/id2">test id2</NavLink></li>
-      </ul>
-    </nav>
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton edge="start" className={classes.menuButton} color="secondary" aria-label="menu">
+            <NavLink to="/" exact><HomeIcon fontSize="large" /></NavLink>
+          </IconButton>
+          <IconButton edge="start" className={classes.menuButton} fontSize="large" color="inherit" aria-label="menu">
+            <NavLink to="/posts/new"><AddIcon /></NavLink>
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+    </div>
   );
-};
-
-const Test = (props) => {
-  return <div> ID: {props.match.params.id} </div>;
 };
 
 const FallBack = (props) => {
@@ -39,14 +50,31 @@ const FallBack = (props) => {
 const App = (props) => {
   return (
     <Router>
-      <div>
-        <Nav />
-        <Switch>
-          <Route exact path="/" component={Welcome} />
-          <Route path="/about" component={About} />
-          <Route exact path="/test/:id" component={Test} />
-          <Route component={FallBack} />
-        </Switch>
+      <div className="app">
+        <Particles canvasClassName="example"
+          height="100%"
+          width="100%"
+          params={{
+            particles: {
+              number: {
+                value: 75,
+                density: {
+                  enable: true,
+                  value_area: 1000,
+                },
+              },
+            },
+          }}
+        />
+        <div className="wrapper">
+          <Nav />
+          <Switch>
+            <Route exact path="/" component={Posts} />
+            <Route path="/posts/new" component={NewPost} />
+            <Route path="/posts/:id" component={Post} />
+            <Route component={FallBack} />
+          </Switch>
+        </div>
       </div>
     </Router>
   );
