@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const ROOT_URL = 'http://localhost:9090/api';
+const ROOT_URL = 'https://blog-platform-react.herokuapp.com/api';
 const API_KEY = '?key=Hershel_wathore';
 
 // keys for actiontypes
