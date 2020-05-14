@@ -32,8 +32,10 @@ class Posts extends Component {
     return (
       <div className="postgen">
         <Link to={`/posts/${post.id}`} className="linkpost" key={post.id}>
-          <div className="display-image" dangerouslySetInnerHTML={{ __html: marked(`![](${post.coverUrl})` || '') }} />
-          <h3 className="title">{post.title}</h3>
+          <div className="postgn">
+            <div className="display-image" dangerouslySetInnerHTML={{ __html: marked(`![](${post.coverUrl})` || '') }} />
+            <h3 className="title">{post.title}</h3>
+          </div>
         </Link>
         <div className="post-tags">
           {tags}
@@ -44,13 +46,17 @@ class Posts extends Component {
 
 
   renderPosts() {
-    return this.props.posts.map((post) => {
-      if (this.props.filter === '') {
-        return this.displayPost(post);
-      } else if (post.tags.toLowerCase().includes(this.props.filter.toLowerCase())) {
-        return this.displayPost(post);
-      } else return null;
-    });
+    if (this.props.posts) {
+      return this.props.posts.map((post) => {
+        if (this.props.filter === '') {
+          return this.displayPost(post);
+        } else if (post.tags.toLowerCase().includes(this.props.filter.toLowerCase())) {
+          return this.displayPost(post);
+        } else return null;
+      });
+    } else {
+      return null;
+    }
   }
 
   render() {
