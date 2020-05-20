@@ -15,3 +15,10 @@ Filtering: At the top of the page is a nice filter search bar. There is no submi
 
 I added a cool particle affect to the backbroung!
 
+## Lab 5 part 2
+
+It was my brithday, and I was feeling entitled, so i was like im not doing this lab. But then the next day I was like fuck I actually have to do this lab, so here is the lab. Made some signin and some signup components, input validation included. Pretty mich just copied my newpost component and made sure to call the right action. Spent a lot of time figuring out material UI stuff for my navbar. Shit looks nice with the account icon though. Oh and if you are not logged in edit/delete/create post buttons are not visible. They become visible once you log in. Author is visible on all posts - i displayed author's email. 
+
+No extra credit feeling lazy on this one.
+
+

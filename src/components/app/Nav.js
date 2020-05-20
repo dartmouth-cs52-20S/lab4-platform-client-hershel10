@@ -9,10 +9,11 @@ import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
-
 import AddIcon from '@material-ui/icons/Add';
-import { filterPosts } from '../../actions';
-
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { filterPosts, signoutUser } from '../../actions';
 
 const styles = (theme) => ({
   root: {
@@ -20,6 +21,9 @@ const styles = (theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
+  },
+  accountButton: {
+    marginLeft: 'auto',
   },
   title: {
     flexGrow: 1,
@@ -69,8 +73,21 @@ class Nav extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      anchorEl: null,
     };
   }
+
+  open = () => {
+    return Boolean(this.state.anchorEl);
+  }
+
+  handleMenu = (event) => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
 
   onHome = () => {
     this.props.filterPosts('');
@@ -78,6 +95,38 @@ class Nav extends React.Component {
 
   handlefilter = (event) => {
     this.props.filterPosts(event.target.value);
+  }
+
+  onSignOut = () => {
+    this.props.signoutUser(this.props.history);
+  }
+
+  rendersignin = () => {
+    if (this.props.auth.authenticated) {
+      return (
+        <MenuItem onClick={this.onSignOut}>Sign Out</MenuItem>
+      );
+    } else {
+      return (
+        <div className="navright">
+          <MenuItem onClick={this.handleClose}><NavLink className="link" to="/signup">Sign Up</NavLink></MenuItem>
+          <MenuItem onClick={this.handleClose}><NavLink className="link" to="/signin">Sign In</NavLink></MenuItem>
+        </div>
+      );
+    }
+  }
+
+  rendernewpost = () => {
+    const { classes } = this.props;
+    if (this.props.auth.authenticated) {
+      return (
+        <IconButton edge="start" className={classes.menuButton} fontSize="large" color="primary" aria-label="menu">
+          <NavLink to="/posts/new"><AddIcon fontSize="large" /></NavLink>
+        </IconButton>
+      );
+    } else {
+      return null;
+    }
   }
 
   render() {
@@ -89,9 +138,7 @@ class Nav extends React.Component {
             <IconButton edge="start" className={classes.menuButton} color="secondary" aria-label="menu">
               <NavLink to="/" exact><HomeIcon onClick={this.onHome} fontSize="large" /></NavLink>
             </IconButton>
-            <IconButton edge="start" className={classes.menuButton} fontSize="large" color="primary" aria-label="menu">
-              <NavLink to="/posts/new"><AddIcon fontSize="large" /></NavLink>
-            </IconButton>
+            {this.rendernewpost()}
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -107,6 +154,34 @@ class Nav extends React.Component {
                 inputProps={{ 'aria-label': 'search' }}
               />
             </div>
+
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={this.handleMenu}
+              color="inherit"
+              className={classes.accountButton}
+            >
+              <AccountCircle />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={this.state.anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={this.open()}
+              onClose={this.handleClose}
+            >
+              {this.rendersignin()}
+            </Menu>
           </Toolbar>
         </AppBar>
       </div>
@@ -117,7 +192,8 @@ class Nav extends React.Component {
 function mapStateToProps(Reduxstate) {
   return {
     filter: Reduxstate.posts.filter,
+    auth: Reduxstate.auth,
   };
 }
 
-export default connect(mapStateToProps, { filterPosts })(withStyles(styles)(Nav));
+export default connect(mapStateToProps, { filterPosts, signoutUser })(withStyles(styles)(Nav));

@@ -97,6 +97,7 @@ class Post extends Component {
       return (
         <div className="noneditpost">
           <div className="title-post">{this.props.post.title}</div>
+          <div className="author-post">Author: {this.props.post.author}</div>
           <div className="post-image" dangerouslySetInnerHTML={{ __html: marked(`![](${this.props.post.coverUrl})` || '') }} />
           <div className="content">{this.props.post.content}</div>
           {tags}
@@ -105,14 +106,23 @@ class Post extends Component {
     }
   }
 
-
-  render() {
-    return (
-      <div className="SpecificPost">
+  renderbuttons = () => {
+    if (this.props.auth.authenticated) {
+      return (
         <header>
           <Button variant="contained" color="primary" className="postbutton" onClick={this.submitChanges}>{this.state.isEditing ? 'Finish' : 'Edit'}</Button>
           <Button variant="contained" color="primary" className="postbutton" onClick={this.delete}>Delete</Button>
         </header>
+      );
+    } else {
+      return (null);
+    }
+  }
+
+  render() {
+    return (
+      <div className="SpecificPost">
+        {this.renderbuttons()}
         {this.renderPost()}
       </div>
     );
@@ -121,6 +131,7 @@ class Post extends Component {
 
 const mapStateToProps = (reduxState) => ({
   post: reduxState.posts.current,
+  auth: reduxState.auth,
 });
 
 // eslint-disable-next-line object-curly-newline

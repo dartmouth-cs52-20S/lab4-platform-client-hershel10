@@ -7,6 +7,8 @@ import Nav from './Nav';
 import NewPost from '../NewPost';
 import Post from '../Post';
 import Posts from '../Posts';
+import SignIn from '../signin';
+import SignUp from '../signup';
 
 
 const FallBack = (props) => {
@@ -38,6 +40,8 @@ const App = (props) => {
             <Route exact path="/" component={Posts} />
             <Route path="/posts/new" component={NewPost} />
             <Route path="/posts/:id" component={Post} />
+            <Route path="/signin" component={SignIn} />
+            <Route path="/signup" component={SignUp} />
             <Route component={FallBack} />
           </Switch>
         </div>
