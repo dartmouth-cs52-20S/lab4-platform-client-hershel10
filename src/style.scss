@@ -70,6 +70,9 @@ body {
      margin: 20px 20px 20px;
      .MuiButtonBase-root {
       margin: 10px 10px;
+      a {
+        text-decoration: none;
+      }
     }
     .MuiButton-contained{
       margin: 4px 4px 4px;
@@ -123,6 +126,13 @@ body {
     .error {
       border: 2px solid red;
       border-radius: 4px;
+    }
+  }
+
+  .MuiButtonBase-root {
+    margin: 10px 10px;
+    a {
+      text-decoration: none;
     }
   }
 
