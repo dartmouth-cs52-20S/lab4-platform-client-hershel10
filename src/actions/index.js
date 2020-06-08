@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const ROOT_URL = 'https://blog-platform-react.herokuapp.com/api';
+// const ROOT_URL = 'https://blog-platform-react.herokuapp.com/api';
+const ROOT_URL = 'http://localhost:9090/api';
 const API_KEY = '?key=Hershel_wathore';
 
 // keys for actiontypes
@@ -83,9 +84,8 @@ export function authError(error) {
   };
 }
 
-export function signinUser({ email, password }, history) {
+export function signinUser(user, history) {
   return (dispatch) => {
-    const user = { email, password };
     axios.post(`${ROOT_URL}/signin${API_KEY}`, user).then((response) => {
       dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
@@ -96,9 +96,9 @@ export function signinUser({ email, password }, history) {
   };
 }
 
-export function signupUser({ email, password }, history) {
+export function signupUser(user, history) {
   return (dispatch) => {
-    axios.post(`${ROOT_URL}/signup${API_KEY}`, { email, password }).then((response) => {
+    axios.post(`${ROOT_URL}/signup${API_KEY}`, user).then((response) => {
       dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
       history.push('/');
